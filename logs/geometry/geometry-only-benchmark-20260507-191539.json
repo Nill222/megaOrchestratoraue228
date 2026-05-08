@@ -1,0 +1,12 @@
+{
+  "ref" : "/home/oleg/Загрузки/v4/testimage/ref.jpg",
+  "cur" : "/home/oleg/Загрузки/v4/testimage/cur.jpg",
+  "warmup" : 10,
+  "iterations" : 100,
+  "p50_ms" : 4762.731,
+  "p95_ms" : 5592.384,
+  "p99_ms" : 6014.152,
+  "mean_ms" : 4868.718,
+  "min_ms" : 4481.781,
+  "max_ms" : 6097.247
+}

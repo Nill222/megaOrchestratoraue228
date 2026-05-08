@@ -1,0 +1,11 @@
+pyproject.toml
+src/iml_detectors/__init__.py
+src/iml_detectors/detector_v1.py
+src/iml_detectors/detector_v2.py
+src/iml_detectors.egg-info/PKG-INFO
+src/iml_detectors.egg-info/SOURCES.txt
+src/iml_detectors.egg-info/dependency_links.txt
+src/iml_detectors.egg-info/requires.txt
+src/iml_detectors.egg-info/top_level.txt
+src/iml_detectors/services/__init__.py
+src/iml_detectors/services/inspection_service.py

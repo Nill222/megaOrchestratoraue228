@@ -1,0 +1,48 @@
+{
+  "correctness": {
+    "ref": "/home/oleg/Загрузки/v4/testimage/ref.jpg",
+    "cur": "/home/oleg/Загрузки/v4/testimage/cur.jpg",
+    "strict_compare_passed": true,
+    "mismatch_count": 0
+  },
+  "harness_summary": {
+    "profile": "normal",
+    "runs": 1,
+    "cameras": 3,
+    "worker_ipc_mode": "stdio",
+    "generated_at": "2026-05-07 23:31:30",
+    "robot_latency_ms": {
+      "count": 3,
+      "p50": 1.0,
+      "p95": 19.9,
+      "p99": 21.58,
+      "max": 22.0
+    },
+    "capture": {
+      "total": 3,
+      "dropped": 0,
+      "drop_rate": 0.0
+    },
+    "timeouts_detected": 0,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "non_zero_exit_runs": 0,
+    "timeout_rate": 0.0,
+    "restarts_per_hour": 0.0,
+    "sla_decision": "READY",
+    "sla_fail_reasons": []
+  },
+  "capture_to_decision": {
+    "samples": 0,
+    "p50_ms": 0.0,
+    "p95_ms": 0.0,
+    "min_ms": 0.0,
+    "max_ms": 0.0
+  },
+  "report_path": "/home/oleg/Загрузки/v4/logs/harness/load-harness-normal-20260507-233122.json",
+  "gate_passed": true
+}

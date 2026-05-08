@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "profile": "normal",
+    "runs": 3,
+    "cameras": 5,
+    "worker_ipc_mode": "stdio",
+    "generated_at": "2026-05-07 21:30:36",
+    "robot_latency_ms": {
+      "count": 7,
+      "p50": 4.0,
+      "p95": 24.6,
+      "p99": 26.52,
+      "max": 27.0
+    },
+    "capture": {
+      "total": 7,
+      "dropped": 0,
+      "drop_rate": 0.0
+    },
+    "timeouts_detected": 0,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "non_zero_exit_runs": 0,
+    "timeout_rate": 0.0,
+    "restarts_per_hour": 0.0,
+    "sla_decision": "READY",
+    "sla_fail_reasons": []
+  },
+  "runs": [
+    {
+      "run_id": 1,
+      "exit_code": 0,
+      "elapsed_ms": 10788.89,
+      "robot_msgs": 3,
+      "robot_ok": 1,
+      "robot_nok": 2,
+      "robot_latency_ms_p50": 4.0,
+      "robot_latency_ms_p95": 24.7,
+      "capture_total": 3,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 6.029,
+      "timeouts_detected": 0,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    },
+    {
+      "run_id": 2,
+      "exit_code": 0,
+      "elapsed_ms": 11691.36,
+      "robot_msgs": 2,
+      "robot_ok": 1,
+      "robot_nok": 1,
+      "robot_latency_ms_p50": 4.5,
+      "robot_latency_ms_p95": 6.75,
+      "capture_total": 2,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 4.95,
+      "timeouts_detected": 0,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    },
+    {
+      "run_id": 3,
+      "exit_code": 0,
+      "elapsed_ms": 9212.04,
+      "robot_msgs": 2,
+      "robot_ok": 0,
+      "robot_nok": 2,
+      "robot_latency_ms_p50": 11.5,
+      "robot_latency_ms_p95": 18.25,
+      "capture_total": 2,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 4.626,
+      "timeouts_detected": 0,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    }
+  ],
+  "config_path": "/home/oleg/Загрузки/v4/logs/harness/harness-config-20260507-213003.json"
+}

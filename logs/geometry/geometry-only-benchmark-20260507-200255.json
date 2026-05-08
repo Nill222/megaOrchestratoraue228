@@ -1,0 +1,67 @@
+{
+  "ref" : "/home/oleg/Загрузки/v4/testimage/ref.jpg",
+  "cur" : "/home/oleg/Загрузки/v4/testimage/cur.jpg",
+  "warmup" : 3,
+  "iterations" : 10,
+  "optimized_circle_max_dim" : 560,
+  "optimized_ref_cur" : {
+    "p50_ms" : 898.889,
+    "p95_ms" : 936.884,
+    "p99_ms" : 937.204,
+    "mean_ms" : 899.464,
+    "min_ms" : 849.453,
+    "max_ms" : 937.284
+  },
+  "optimized_ref_ref" : {
+    "p50_ms" : 827.697,
+    "p95_ms" : 901.027,
+    "p99_ms" : 924.647,
+    "mean_ms" : 839.889,
+    "min_ms" : 796.376,
+    "max_ms" : 930.552
+  },
+  "optimized_stage_profile_ms" : {
+    "align" : {
+      "p50_ms" : 30.477,
+      "p95_ms" : 35.611,
+      "p99_ms" : 49.248,
+      "mean_ms" : 31.842,
+      "min_ms" : 28.852,
+      "max_ms" : 53.64
+    },
+    "concentricity" : {
+      "p50_ms" : 806.889,
+      "p95_ms" : 891.538,
+      "p99_ms" : 896.799,
+      "mean_ms" : 816.173,
+      "min_ms" : 718.318,
+      "max_ms" : 898.252
+    },
+    "joint" : {
+      "p50_ms" : 0.063,
+      "p95_ms" : 1.88,
+      "p99_ms" : 2.565,
+      "mean_ms" : 0.404,
+      "min_ms" : 0.041,
+      "max_ms" : 2.771
+    },
+    "warp" : {
+      "p50_ms" : 9.44,
+      "p95_ms" : 11.729,
+      "p99_ms" : 13.127,
+      "mean_ms" : 9.767,
+      "min_ms" : 8.27,
+      "max_ms" : 13.558
+    },
+    "wrinkles" : {
+      "p50_ms" : 0.073,
+      "p95_ms" : 1.462,
+      "p99_ms" : 2.473,
+      "mean_ms" : 0.341,
+      "min_ms" : 0.045,
+      "max_ms" : 2.808
+    }
+  },
+  "mismatch_count" : 0,
+  "strict_compare_passed" : true
+}

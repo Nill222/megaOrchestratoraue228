@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "frame": {
+    "width": 2448,
+    "height": 2048,
+    "format": "BGR8"
+  },
+  "capture_source": "fake",
+  "frame_timeout_ms": 1000,
+  "orchestrator": {
+    "control_pipe": "\\\\.\\pipe\\iml-orchestrator",
+    "control_pipe_linux": "/tmp/iml-orchestrator.sock"
+  },
+  "cameras": [
+    {
+      "id": 0,
+      "enabled": true,
+      "ip": "192.168.1.10",
+      "exposure_us": 12000,
+      "detector": "v1",
+      "pipe_command": "\\\\.\\pipe\\camera-0-cmd",
+      "pipe_command_linux": "/tmp/camera-0-cmd.sock"
+    },
+    {
+      "id": 1,
+      "enabled": true,
+      "ip": "192.168.1.11",
+      "exposure_us": 12000,
+      "detector": "v1",
+      "pipe_command": "\\\\.\\pipe\\camera-1-cmd",
+      "pipe_command_linux": "/tmp/camera-1-cmd.sock"
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "ip": "192.168.1.12",
+      "exposure_us": 12000,
+      "detector": "v2",
+      "pipe_command": "\\\\.\\pipe\\camera-2-cmd",
+      "pipe_command_linux": "/tmp/camera-2-cmd.sock"
+    },
+    {
+      "id": 3,
+      "enabled": true,
+      "ip": "192.168.1.13",
+      "exposure_us": 12000,
+      "detector": "v1",
+      "pipe_command": "\\\\.\\pipe\\camera-3-cmd",
+      "pipe_command_linux": "/tmp/camera-3-cmd.sock"
+    },
+    {
+      "id": 4,
+      "enabled": true,
+      "ip": "192.168.1.14",
+      "exposure_us": 12000,
+      "detector": "v2",
+      "pipe_command": "\\\\.\\pipe\\camera-4-cmd",
+      "pipe_command_linux": "/tmp/camera-4-cmd.sock"
+    }
+  ],
+  "java_geometry": {
+    "pixels_to_mm": 0.01,
+    "main_roi": {
+      "x": 0,
+      "y": 0,
+      "width": 2448,
+      "height": 2048
+    },
+    "joint_roi": null,
+    "wrinkles_roi": null,
+    "max_shift_mm": 0.5,
+    "max_rotation_deg": 1.0,
+    "max_concentricity_mm": 0.2,
+    "max_joint_defect_mm": 0.3,
+    "max_wrinkles_score": 0.05
+  },
+  "python_detector": {
+    "rois": [
+      {
+        "name": "main",
+        "x": 0,
+        "y": 0,
+        "width": 2448,
+        "height": 2048
+      }
+    ],
+    "fallback_threshold": 0.25
+  },
+  "client": {
+    "url": "ws://127.0.0.1:8765",
+    "preview_max_fps": 10
+  },
+  "robot": {
+    "url": "http://127.0.0.1:9999",
+    "enabled": false
+  },
+  "fanout": {
+    "robot_tcp": {
+      "host": "127.0.0.1",
+      "port": 9999,
+      "connect_timeout_ms": 300,
+      "write_timeout_ms": 300,
+      "queue_size": 256
+    },
+    "client_http": {
+      "host": "127.0.0.1",
+      "port": 8088,
+      "queue_size": 128,
+      "artificial_delay_ms": 200
+    }
+  },
+  "light_server": {
+    "enabled": false,
+    "base_url": "http://127.0.0.1:5079",
+    "trigger_path": "/api/light/trigger-inspection",
+    "timeout_ms": 800,
+    "fail_on_error": false,
+    "brightness": 100,
+    "duration_ms": 100
+  },
+  "integration": {
+    "camera_parallelism": 5,
+    "geometry_pool_size": 4,
+    "python_parallelism": 4,
+    "stage_queue_size": 32,
+    "worker_ipc_mode": "stdio",
+    "worker_named_pipe_template": "\\\\.\\pipe\\iml-camera-%d-binary",
+    "worker_named_pipe_template_linux": "/tmp/iml-camera-%d.pipe",
+    "worker_named_pipe_connect_timeout_ms": 3000,
+    "light_server_startup_delay_ms": 1200,
+    "python_command_linux": [
+      "/home/oleg/Загрузки/v4/python-detectors/.venv/bin/python",
+      "-m",
+      "iml_detectors.runner"
+    ],
+    "light_server_command_windows": [
+      "dotnet",
+      "run",
+      "--project",
+      "LightServer/LightServer.csproj",
+      "--urls",
+      "http://127.0.0.1:5079"
+    ],
+    "light_server_command_linux": [
+      "dotnet",
+      "run",
+      "--project",
+      "LightServer/LightServer.csproj",
+      "--urls",
+      "http://127.0.0.1:5079"
+    ],
+    "geometry_command_linux": [
+      "java",
+      "-cp",
+      "/home/oleg/Загрузки/v4/java-geometry-service/target/classes:/home/oleg/Загрузки/v4/.m2repository/org/openpnp/opencv/4.9.0-0/opencv-4.9.0-0.jar:/home/oleg/Загрузки/v4/.m2repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar:/home/oleg/Загрузки/v4/.m2repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar:/home/oleg/Загрузки/v4/.m2repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar:/home/oleg/Загрузки/v4/.m2repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/oleg/Загрузки/v4/.m2repository/org/apache/logging/log4j/log4j-core/2.24.3/log4j-core-2.24.3.jar",
+      "com.example.iml.service.GeometryRunnerMain"
+    ]
+  }
+}

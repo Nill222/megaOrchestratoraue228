@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "profile": "normal",
+    "runs": 2,
+    "cameras": 2,
+    "worker_ipc_mode": "stdio",
+    "generated_at": "2026-05-06 21:17:18",
+    "robot_latency_ms": {
+      "count": 4,
+      "p50": 5.0,
+      "p95": 9.85,
+      "p99": 9.97,
+      "max": 10.0
+    },
+    "capture": {
+      "total": 8,
+      "dropped": 0,
+      "drop_rate": 0.0
+    },
+    "timeouts_detected": 8,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "non_zero_exit_runs": 0
+  },
+  "runs": [
+    {
+      "run_id": 1,
+      "exit_code": 0,
+      "elapsed_ms": 8914.34,
+      "robot_msgs": 2,
+      "robot_ok": 1,
+      "robot_nok": 1,
+      "robot_latency_ms_p50": 5.5,
+      "robot_latency_ms_p95": 9.55,
+      "capture_total": 4,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 10.374,
+      "timeouts_detected": 4,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    },
+    {
+      "run_id": 2,
+      "exit_code": 0,
+      "elapsed_ms": 8414.02,
+      "robot_msgs": 2,
+      "robot_ok": 1,
+      "robot_nok": 1,
+      "robot_latency_ms_p50": 5.0,
+      "robot_latency_ms_p95": 8.6,
+      "capture_total": 4,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 9.696,
+      "timeouts_detected": 4,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    }
+  ],
+  "config_path": "/home/oleg/Загрузки/v4/config/harness-config-20260506-211700.json"
+}

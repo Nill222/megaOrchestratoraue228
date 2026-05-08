@@ -1,0 +1,4 @@
+run_id,exit_code,elapsed_ms,robot_msgs,robot_ok,robot_nok,robot_latency_ms_p50,robot_latency_ms_p95,capture_total,capture_dropped,capture_drop_rate,capture_latency_avg_ms_mean,timeouts_detected,worker_restarts,python_restarts,geometry_restarts,all_restarts
+1,0,9802.49,2,0,2,3.0,4.8,2,0,0.0,4.967,0,0,0,0,0
+2,0,10523.62,3,1,2,4.0,12.1,3,0,0.0,9.063,0,0,0,0,0
+3,0,9056.77,2,1,1,21.0,39.0,2,0,0.0,5.088,0,0,0,0,0

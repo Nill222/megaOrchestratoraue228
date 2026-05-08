@@ -1,0 +1,55 @@
+{
+  "summary": {
+    "profile": "normal",
+    "runs": 1,
+    "cameras": 3,
+    "worker_ipc_mode": "stdio",
+    "generated_at": "2026-05-07 23:24:14",
+    "robot_latency_ms": {
+      "count": 3,
+      "p50": 1.0,
+      "p95": 6.4,
+      "p99": 6.88,
+      "max": 7.0
+    },
+    "capture": {
+      "total": 4,
+      "dropped": 0,
+      "drop_rate": 0.0
+    },
+    "timeouts_detected": 0,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "non_zero_exit_runs": 0,
+    "timeout_rate": 0.0,
+    "restarts_per_hour": 0.0,
+    "sla_decision": "READY",
+    "sla_fail_reasons": []
+  },
+  "runs": [
+    {
+      "run_id": 1,
+      "exit_code": 0,
+      "elapsed_ms": 7435.9,
+      "robot_msgs": 3,
+      "robot_ok": 2,
+      "robot_nok": 1,
+      "robot_latency_ms_p50": 1.0,
+      "robot_latency_ms_p95": 6.4,
+      "capture_total": 4,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 10.228,
+      "timeouts_detected": 0,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    }
+  ],
+  "config_path": "/home/oleg/Загрузки/v4/logs/harness/harness-config-20260507-232406.json"
+}

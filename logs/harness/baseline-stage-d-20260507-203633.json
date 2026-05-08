@@ -1,0 +1,69 @@
+{
+  "stage": "D",
+  "baseline_summary": {
+    "timestamp": "20260507-203633",
+    "runs": 5,
+    "cameras": 5,
+    "elapsed_ms_total": 45358.87,
+    "elapsed_ms_p50": 8902.23,
+    "elapsed_ms_p95": 10208.264,
+    "capture_to_decision": {
+      "samples": 11,
+      "p50_ms": 2442.0,
+      "p95_ms": 3443.5,
+      "min_ms": 682.0,
+      "max_ms": 3991.0
+    },
+    "timeouts_detected": 0,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "sla_decision": "READY"
+  },
+  "per_run_capture_to_decision": [
+    {
+      "log": "load-harness-20260507-203633-run-1.log",
+      "count": 3,
+      "p50_ms": 2311.0,
+      "p95_ms": 2788.9,
+      "min_ms": 736.0,
+      "max_ms": 2842.0
+    },
+    {
+      "log": "load-harness-20260507-203633-run-2.log",
+      "count": 2,
+      "p50_ms": 3443.5,
+      "p95_ms": 3936.25,
+      "min_ms": 2896.0,
+      "max_ms": 3991.0
+    },
+    {
+      "log": "load-harness-20260507-203633-run-3.log",
+      "count": 3,
+      "p50_ms": 2278.0,
+      "p95_ms": 2425.6,
+      "min_ms": 682.0,
+      "max_ms": 2442.0
+    },
+    {
+      "log": "load-harness-20260507-203633-run-4.log",
+      "count": 2,
+      "p50_ms": 1772.5,
+      "p95_ms": 2690.95,
+      "min_ms": 752.0,
+      "max_ms": 2793.0
+    },
+    {
+      "log": "load-harness-20260507-203633-run-5.log",
+      "count": 1,
+      "p50_ms": 2826.0,
+      "p95_ms": 2826.0,
+      "min_ms": 2826.0,
+      "max_ms": 2826.0
+    }
+  ],
+  "source_harness_report": "/home/oleg/Загрузки/v4/logs/harness/load-harness-normal-20260507-203633.json"
+}

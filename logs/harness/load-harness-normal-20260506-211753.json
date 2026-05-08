@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "profile": "normal",
+    "runs": 1,
+    "cameras": 2,
+    "worker_ipc_mode": "stdio",
+    "generated_at": "2026-05-06 21:18:01",
+    "robot_latency_ms": {
+      "count": 2,
+      "p50": 3.0,
+      "p95": 4.8,
+      "p99": 4.96,
+      "max": 5.0
+    },
+    "capture": {
+      "total": 4,
+      "dropped": 0,
+      "drop_rate": 0.0
+    },
+    "timeouts_detected": 0,
+    "restart_counts": {
+      "worker_total": 0,
+      "python_total": 0,
+      "geometry_total": 0,
+      "all_total": 0
+    },
+    "non_zero_exit_runs": 0
+  },
+  "runs": [
+    {
+      "run_id": 1,
+      "exit_code": 0,
+      "elapsed_ms": 8197.26,
+      "robot_msgs": 2,
+      "robot_ok": 1,
+      "robot_nok": 1,
+      "robot_latency_ms_p50": 3.0,
+      "robot_latency_ms_p95": 4.8,
+      "capture_total": 4,
+      "capture_dropped": 0,
+      "capture_drop_rate": 0.0,
+      "capture_latency_avg_ms_mean": 8.807,
+      "timeouts_detected": 0,
+      "worker_restarts": 0,
+      "python_restarts": 0,
+      "geometry_restarts": 0,
+      "all_restarts": 0
+    }
+  ],
+  "config_path": "/home/oleg/Загрузки/v4/logs/harness/harness-config-20260506-211753.json"
+}

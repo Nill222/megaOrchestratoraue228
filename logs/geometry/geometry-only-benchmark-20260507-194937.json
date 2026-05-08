@@ -1,0 +1,24 @@
+{
+  "ref" : "/home/oleg/Загрузки/v4/testimage/ref.jpg",
+  "cur" : "/home/oleg/Загрузки/v4/testimage/cur.jpg",
+  "warmup" : 3,
+  "iterations" : 10,
+  "optimized_ref_cur" : {
+    "p50_ms" : 4573.188,
+    "p95_ms" : 4888.093,
+    "p99_ms" : 4961.941,
+    "mean_ms" : 4619.524,
+    "min_ms" : 4398.365,
+    "max_ms" : 4980.404
+  },
+  "optimized_ref_ref" : {
+    "p50_ms" : 4430.194,
+    "p95_ms" : 4566.753,
+    "p99_ms" : 4608.794,
+    "mean_ms" : 4393.269,
+    "min_ms" : 4182.924,
+    "max_ms" : 4619.304
+  },
+  "mismatch_count" : 0,
+  "strict_compare_passed" : true
+}
