@@ -134,26 +134,37 @@ def _detect_with_optional_alignment(
     threshold: float | None,
     include_visuals: bool,
     alignment_h_ref_to_cur: Any,
+    heatmap_u8_output_path: str | None = None,
 ) -> Any:
+    def _call(**extra: Any) -> Any:
+        return detector.detect(
+            frame,
+            rois=rois,
+            product_type=product_type,
+            threshold=threshold,
+            include_visuals=include_visuals,
+            **extra,
+        )
+
+    tries: list[dict[str, Any]] = []
+    if alignment_h_ref_to_cur is not None and heatmap_u8_output_path:
+        tries.append({"alignment_h_ref_to_cur": alignment_h_ref_to_cur, "heatmap_u8_output_path": heatmap_u8_output_path})
     if alignment_h_ref_to_cur is not None:
+        tries.append({"alignment_h_ref_to_cur": alignment_h_ref_to_cur})
+    if heatmap_u8_output_path:
+        tries.append({"heatmap_u8_output_path": heatmap_u8_output_path})
+    tries.append({})
+
+    last_err: TypeError | None = None
+    for extra in tries:
         try:
-            return detector.detect(
-                frame,
-                rois=rois,
-                product_type=product_type,
-                threshold=threshold,
-                include_visuals=include_visuals,
-                alignment_h_ref_to_cur=alignment_h_ref_to_cur,
-            )
-        except TypeError:
-            pass
-    return detector.detect(
-        frame,
-        rois=rois,
-        product_type=product_type,
-        threshold=threshold,
-        include_visuals=include_visuals,
-    )
+            return _call(**extra)
+        except TypeError as e:
+            last_err = e
+            continue
+    if last_err:
+        raise last_err
+    raise RuntimeError("detector.detect failed")
 
 
 def main() -> int:
@@ -202,6 +213,8 @@ def main() -> int:
                 include_visuals = bool(header.get("include_visuals", False))
                 rois = header.get("rois")
                 alignment_h_ref_to_cur = header.get("alignment_h_ref_to_cur")
+                h8 = header.get("heatmap_u8_output_path")
+                heatmap_u8_output_path = (str(h8).strip() or None) if h8 is not None else None
                 if threshold is not None:
                     threshold = float(threshold)
                 detector = registry.resolve(str(header.get("detector_id", default_detector)))
@@ -214,6 +227,7 @@ def main() -> int:
                     threshold=threshold,
                     include_visuals=include_visuals,
                     alignment_h_ref_to_cur=alignment_h_ref_to_cur,
+                    heatmap_u8_output_path=heatmap_u8_output_path,
                 )
                 if isinstance(result, dict):
                     result["detector_id"] = str(header.get("detector_id", default_detector))
@@ -226,6 +240,8 @@ def main() -> int:
                 include_visuals = bool(header.get("include_visuals", False))
                 rois = header.get("rois")
                 alignment_h_ref_to_cur = header.get("alignment_h_ref_to_cur")
+                h8 = header.get("heatmap_u8_output_path")
+                heatmap_u8_output_path = (str(h8).strip() or None) if h8 is not None else None
                 if threshold is not None:
                     threshold = float(threshold)
                 frame = _read_frame_from_shm(header)
@@ -239,6 +255,7 @@ def main() -> int:
                     threshold=threshold,
                     include_visuals=include_visuals,
                     alignment_h_ref_to_cur=alignment_h_ref_to_cur,
+                    heatmap_u8_output_path=heatmap_u8_output_path,
                 )
                 if isinstance(result, dict):
                     result["detector_id"] = detector_id

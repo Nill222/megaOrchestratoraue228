@@ -22,6 +22,7 @@ def detect(
     threshold: float | None = None,
     include_visuals: bool = False,
     alignment_h_ref_to_cur: list[float] | None = None,
+    heatmap_u8_output_path: str | None = None,
 ) -> dict[str, Any]:
     _ = rois
     pt = product_type or _DEFAULT_PRODUCT_TYPE
@@ -31,6 +32,7 @@ def detect(
         threshold=threshold,
         include_visuals=include_visuals,
         alignment_h_ref_to_cur=alignment_h_ref_to_cur,
+        heatmap_u8_output_path=heatmap_u8_output_path,
     )
     payload = asdict(result)
     payload["detector_id"] = "v1"

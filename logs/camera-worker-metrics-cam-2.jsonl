@@ -136,3 +136,4 @@
 {"ts_ns":1778185889485698641,"camera_id":2,"capture_total":1,"capture_dropped":0,"latency_ns_min":6600170,"latency_ns_avg":6600170,"latency_ns_max":6600170,"last_frame_id":1,"last_slot_index":0,"ring_slots":4,"frame_bytes":15040512}
 {"ts_ns":1778185981356517625,"camera_id":2,"capture_total":1,"capture_dropped":0,"latency_ns_min":4977685,"latency_ns_avg":4977685,"latency_ns_max":4977685,"last_frame_id":1,"last_slot_index":0,"ring_slots":4,"frame_bytes":15040512}
 {"ts_ns":1778186383378924957,"camera_id":2,"capture_total":2,"capture_dropped":0,"latency_ns_min":12991842,"latency_ns_avg":14478146,"latency_ns_max":15964451,"last_frame_id":2,"last_slot_index":1,"ring_slots":4,"frame_bytes":15040512}
+{"ts_ns":1778525263027839824,"camera_id":2,"capture_total":1,"capture_dropped":0,"latency_ns_min":4449553,"latency_ns_avg":4449553,"latency_ns_max":4449553,"last_frame_id":1,"last_slot_index":0,"ring_slots":4,"frame_bytes":15040512}

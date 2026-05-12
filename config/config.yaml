@@ -73,6 +73,23 @@ python_detector:
       width: 2448
       height: 2048
   fallback_threshold: 0.25
+  # В горячем пути visual'ы выключены ради SLA (<=1.5s на ведро). Heatmap генерируется отдельно (см. ui_http).
+  include_visuals: false
+
+# HTTP эндпоинты для фронта (локальный просмотр последних current/heatmap по камере).
+ui_http:
+  enabled: true
+  host: "127.0.0.1"
+  port: 8099
+  # Генерация артефактов для UI НЕ блокирует инспекцию: отдельный python-процесс + bounded queue.
+  visuals_async_enabled: true
+  visuals_queue_size: 8
+  store_current_jpeg: true
+  store_heatmap_u8: true
+  # Только превью для HTTP/UI: полный кадр остаётся в SHM для инспекции.
+  client_preview_jpeg_quality: 58
+  # 0 = без даунскейла (сетка heatmap совпадает с кадром). Иначе макс. ширина JPEG; масштаб heatmap на фронте: heatmap_* vs current_jpeg_*.
+  client_preview_max_width: 0
 
 client:
   url: "ws://127.0.0.1:8765"

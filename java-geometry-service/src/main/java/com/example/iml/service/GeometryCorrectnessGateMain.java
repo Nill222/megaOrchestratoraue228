@@ -33,10 +33,21 @@ public final class GeometryCorrectnessGateMain {
             throw new IllegalArgumentException("failed to load input images ref=" + refPath + " cur=" + curPath);
         }
 
+        RoiRect mainRoi;
+        if (args.length >= 6) {
+            int rx = Integer.parseInt(args[2].trim());
+            int ry = Integer.parseInt(args[3].trim());
+            int rw = Integer.parseInt(args[4].trim());
+            int rh = Integer.parseInt(args[5].trim());
+            mainRoi = clampRoi(cur.cols(), cur.rows(), rx, ry, rw, rh);
+        } else {
+            mainRoi = new RoiRect(0, 0, cur.cols(), cur.rows());
+        }
+
         InspectionRequest req = new InspectionRequest(
                 "",
                 "",
-                new RoiRect(0, 0, cur.cols(), cur.rows()),
+                mainRoi,
                 null,
                 null,
                 0.01,
@@ -77,6 +88,12 @@ public final class GeometryCorrectnessGateMain {
 
             out.put("ref", refPath.toString());
             out.put("cur", curPath.toString());
+            out.put("main_roi", Map.of(
+                    "x", mainRoi.x(),
+                    "y", mainRoi.y(),
+                    "width", mainRoi.width(),
+                    "height", mainRoi.height()
+            ));
             out.put("strict_compare_passed", mismatches.isEmpty());
             out.put("mismatch_count", mismatches.size());
             if (!mismatches.isEmpty()) {
@@ -91,6 +108,20 @@ public final class GeometryCorrectnessGateMain {
         if (!mismatches.isEmpty()) {
             throw new IllegalStateException("Stage G correctness failed");
         }
+    }
+
+    private static RoiRect clampRoi(int cols, int rows, int x, int y, int w, int h) {
+        if (w <= 0 || h <= 0) {
+            throw new IllegalArgumentException("ROI width and height must be positive, got w=" + w + " h=" + h);
+        }
+        x = Math.max(0, Math.min(x, Math.max(0, cols - 1)));
+        y = Math.max(0, Math.min(y, Math.max(0, rows - 1)));
+        w = Math.min(w, cols - x);
+        h = Math.min(h, rows - y);
+        if (w <= 0 || h <= 0) {
+            throw new IllegalArgumentException("ROI outside image bounds cols=" + cols + " rows=" + rows);
+        }
+        return new RoiRect(x, y, w, h);
     }
 
     private static void compare(String scenario, InspectionResponse a, InspectionResponse b, List<String> mismatches) {

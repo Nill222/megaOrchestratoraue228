@@ -6,11 +6,13 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from io import BytesIO
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
 import cv2
 import numpy as np
+from PIL import Image
 
 
 @dataclass
@@ -22,6 +24,9 @@ class InspectionResult:
     aligned_image_b64: str = ""
     diff_map_b64: str = ""
     heatmap_b64: str = ""
+    heatmap_u8_path: str = ""
+    heatmap_u8_width: int = 0
+    heatmap_u8_height: int = 0
     segmentation_mask_b64: str = ""
     raw_anomaly_score: float = 0.0
     rechecked_zones_count: int = 0
@@ -180,7 +185,7 @@ class InspectionService:
         if reference is None:
             raise ValueError(f"Reference for product_type '{product_type}' is not set")
         current = self._decode_image(image_bytes)
-        return self._inspect_frames(product_type, reference, current, threshold, include_visuals)
+        return self._inspect_frames(product_type, reference, current, threshold, include_visuals, None, None)
 
     def inspect_frame(
         self,
@@ -189,11 +194,20 @@ class InspectionService:
         threshold: Optional[float] = None,
         include_visuals: bool = True,
         alignment_h_ref_to_cur: list[float] | None = None,
+        heatmap_u8_output_path: str | None = None,
     ) -> InspectionResult:
         reference = self.get_reference(product_type)
         if reference is None:
             raise ValueError(f"Reference for product_type '{product_type}' is not set")
-        return self._inspect_frames(product_type, reference, frame, threshold, include_visuals, alignment_h_ref_to_cur)
+        return self._inspect_frames(
+            product_type,
+            reference,
+            frame,
+            threshold,
+            include_visuals,
+            alignment_h_ref_to_cur,
+            heatmap_u8_output_path,
+        )
 
     def _inspect_frames(
         self,
@@ -203,6 +217,7 @@ class InspectionService:
         threshold: Optional[float],
         include_visuals: bool,
         alignment_h_ref_to_cur: list[float] | None = None,
+        heatmap_u8_output_path: str | None = None,
     ) -> InspectionResult:
         t_total_0 = time.perf_counter_ns()
         t0 = time.perf_counter_ns()
@@ -244,6 +259,22 @@ class InspectionService:
                 fp_recheck["rechecked_zone_ids"],
             )
 
+        heatmap_u8_path = ""
+        heatmap_u8_width = 0
+        heatmap_u8_height = 0
+        if heatmap_u8_output_path:
+            u8 = self._heatmap_intensity_u8(segmentation_mask, diff_map)
+            u8 = self._draw_fp_zone_overlay_u8(
+                u8,
+                self.get_fp_zones(product_type),
+                fp_recheck["rechecked_zone_ids"],
+            )
+            out = Path(heatmap_u8_output_path)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_bytes(u8.tobytes())
+            heatmap_u8_path = str(out)
+            heatmap_u8_height, heatmap_u8_width = int(u8.shape[0]), int(u8.shape[1])
+
         t0 = time.perf_counter_ns()
         aligned_image_b64 = self._encode_image(aligned) if include_visuals else ""
         diff_map_b64 = self._encode_image(diff_map) if include_visuals else ""
@@ -260,6 +291,9 @@ class InspectionService:
             aligned_image_b64=aligned_image_b64,
             diff_map_b64=diff_map_b64,
             heatmap_b64=heatmap_b64,
+            heatmap_u8_path=heatmap_u8_path,
+            heatmap_u8_width=heatmap_u8_width,
+            heatmap_u8_height=heatmap_u8_height,
             segmentation_mask_b64=segmentation_mask_b64,
             raw_anomaly_score=raw_score,
             rechecked_zones_count=len(fp_recheck["rechecked_zone_ids"]),
@@ -401,6 +435,7 @@ class InspectionService:
             )
         )
         if not has_baseline:
+            # Old zones have no baseline. Be conservative so a real new scratch is not hidden.
             return activity["score"] <= 0.35 and activity["active_ratio"] <= 0.08 and activity["diff_q90"] <= 45.0
 
         q90_limit = max(zone.baseline_diff_q90 + 18.0, zone.baseline_diff_q90 * 1.45)
@@ -475,6 +510,28 @@ class InspectionService:
             cv2.polylines(overlay, [pts], isClosed=True, color=color, thickness=2)
         return cv2.addWeighted(overlay, 0.18, heatmap, 0.82, 0.0)
 
+    def _draw_fp_zone_overlay_u8(
+        self,
+        u8: np.ndarray,
+        zones: list[FPZone],
+        rechecked_ids: list[str],
+    ) -> np.ndarray:
+        """Контуры FP-зон на сырой карте интенсивности (для UI без include_visuals / PNG)."""
+        if not zones:
+            return u8
+        out = u8.copy()
+        h, w = int(out.shape[0]), int(out.shape[1])
+        for zone in zones:
+            pts = np.array(
+                [[int(round(x * (w - 1))), int(round(y * (h - 1)))] for x, y in zone.points_norm_ref],
+                dtype=np.int32,
+            )
+            if len(pts) < 3:
+                continue
+            v = 255 if zone.id in rechecked_ids else 230
+            cv2.polylines(out, [pts], isClosed=True, color=int(v), thickness=2)
+        return out
+
     def _decode_image(self, image_bytes: bytes) -> np.ndarray:
         data = np.frombuffer(image_bytes, dtype=np.uint8)
         image = cv2.imdecode(data, cv2.IMREAD_COLOR)
@@ -483,10 +540,11 @@ class InspectionService:
         return image
 
     def _encode_image(self, image: np.ndarray) -> str:
-        ok, encoded = cv2.imencode(".png", image)
-        if not ok:
-            return ""
-        return base64.b64encode(encoded.tobytes()).decode("utf-8")
+        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        pil_image = Image.fromarray(rgb_image)
+        buffer = BytesIO()
+        pil_image.save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue()).decode("utf-8")
 
     def _align_to_reference(
         self,
@@ -771,6 +829,18 @@ class InspectionService:
                 pass
 
         return heuristic_score, heuristic_mask
+
+    def _heatmap_intensity_u8(self, mask: np.ndarray, diff_map: Optional[np.ndarray] = None) -> np.ndarray:
+        """Сырая 8-бит интенсивность для UI (без applyColorMap). Совпадает с каналом до JET в _build_heatmap."""
+        mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+        if diff_map is None:
+            return cv2.normalize(mask_gray, None, 0, 255, cv2.NORM_MINMAX)
+        diff_gray = cv2.cvtColor(diff_map, cv2.COLOR_BGR2GRAY)
+        diff_norm = cv2.normalize(diff_gray, None, 0, 255, cv2.NORM_MINMAX)
+        combined = cv2.max(mask_gray, diff_norm)
+        combined = cv2.normalize(combined, None, 0, 255, cv2.NORM_MINMAX)
+        combined_gamma = np.power(combined.astype(np.float32) / 255.0, 0.8) * 255.0
+        return np.clip(combined_gamma, 0, 255).astype(np.uint8)
 
     def _build_heatmap(self, mask: np.ndarray, diff_map: Optional[np.ndarray] = None) -> np.ndarray:
         mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)

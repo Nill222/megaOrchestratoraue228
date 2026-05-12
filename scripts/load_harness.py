@@ -27,6 +27,7 @@ class Profile:
 PROFILES: dict[str, Profile] = {
     "normal": Profile(name="normal", runs=6, cameras=3, client_delay_ms=200),
     "stress": Profile(name="stress", runs=20, cameras=3, client_delay_ms=2000),
+    "conveyor10": Profile(name="conveyor10", runs=10, cameras=5, client_delay_ms=200),
 }
 
 

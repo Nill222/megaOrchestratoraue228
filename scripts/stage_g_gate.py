@@ -52,7 +52,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Stage G correctness gate")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--cameras", type=int, default=5)
-    ap.add_argument("--profile", default="normal", choices=["normal", "stress"])
+    ap.add_argument("--profile", default="normal", choices=["normal", "stress", "conveyor10"])
     ap.add_argument("--ref", default="testimage/ref.jpg")
     ap.add_argument("--cur", default="testimage/cur.jpg")
     args = ap.parse_args()
